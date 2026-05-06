@@ -13,7 +13,7 @@ import org.pcap4j.packet.Packet;
 
 public class Sniffer {
     private final PacketParser parser = new PacketParser();
-    // how many packets do you want to capture, zero = infinity
+    // quantos pacotes vc quer capturar - zero é infinito
     private static final int PACKETS_TO_CAPTURE = 0;
 
     private static final int READ_TIMEOUT_MS = 10;
@@ -60,7 +60,7 @@ public class Sniffer {
     }
 
     private void startCapture(PcapNetworkInterface netInterface) throws PcapNativeException, InterruptedException, NotOpenException {
-        // PROMISCUOUS captures all packets
+        // PROMISCUOUS captura todos os pacotes
         PcapHandle handle = netInterface.openLive(MAX_PACKET_SIZE_BYTES, PromiscuousMode.PROMISCUOUS, READ_TIMEOUT_MS);
 
         handle.loop(PACKETS_TO_CAPTURE, (PacketListener) packet -> processPacket(packet));
