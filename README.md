@@ -19,13 +19,48 @@ Comunicação entre aplicações
 Headers, portas, IPs, MAC Address
 Funcionamento real do modelo OSI / TCP-IP
 
-### 🌐 O que é uma Interface de Rede?
+### Estudos e notas:
 
-Uma interface de rede é o ponto de conexão entre seu dispositivo e a rede.
+Ao usar este sniffer, vários conceitos de redes deixam de ser “teoria” e passam a ser coisas visíveis nos bytes.
 
-Ela pode ser:
+🧩 O que é o OSI model
 
-Física → placa Ethernet, Wi-Fi
-Lógica → loopback, VPN, Docker bridge
+O OSI não é um protocolo.
+É um modelo mental para entender onde cada parte do pacote atua.
 
-O sniffer precisa escolher qual interface observar, pois os pacotes passam por elas.
+Quando você captura um pacote bruto (getRawData()), você está vendo as camadas, 2, 3, 4, 7
+
+🧱 O que é um Frame Ethernet
+
+O que chega primeiro na sua placa de rede é um frame Ethernet (camada 2).
+
+Ele contém:
+MAC de origem
+MAC de destino
+EtherType
+Payload (que normalmente é um pacote IP)
+
+🔎 O que é EtherType
+
+Campo nos bytes 12 e 13 do frame Ethernet.
+
+Ele diz o que vem depois do header Ethernet:
+
+EtherType	Significa
+0x0800	IPv4
+0x86DD	IPv6
+0x0806	ARP
+
+É assim que você descobre se o payload é IP ou ARP.
+
+🤝 Como o TCP mostra SYN, ACK, etc.
+
+No header TCP existem flags (bits de controle):
+
+SYN
+ACK
+FIN
+RST
+PSH
+
+São esses bits que permitem enxergar o 3-way handshake acontecendo ao vivo.
